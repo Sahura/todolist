@@ -1,45 +1,36 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
+  <v-app id="app"> 
+    <h1 >ToDo
+      <input style="place:right;background-color:white" type="text" v-model="newTask" placeholder="blablabla">
+      <button @click="addNewTask">Add</button>
+    </h1>
+    
+    
+    <v-card
+    
+    class="done"
+    v-for="(task,index) in list" 
+    :key="index"
+    
+    v-show="!task.done"
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+     <button @click=" done(index)">change  </button> {{task.task}}    <button @click="remove(index)">Remove</button>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    </v-card>
 
-      <v-spacer></v-spacer>
+    <h1>Done</h1>
+    <v-card
+    class="unDone" 
+    v-for="(task,index) in list" 
+    :key="index"
+   
+    v-show="task.done"
+    >
+    <button @click="unDone(index)"> change  </button>  {{task.task}}    <button @click="remove(index)" >Remove</button>  
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+    </v-card>
+    
+     
   </v-app>
 </template>
 
@@ -51,10 +42,71 @@ export default {
 
   components: {
     HelloWorld,
+    
   },
-
-  data: () => ({
-    //
-  }),
+  data(){
+    return{
+      title:"down",
+      list:[
+        {
+          done:false,
+          task:"aaaa"        
+        },
+        
+        {
+          done:true,
+          task:"bbbb"        
+        },
+        
+        {
+          done:false,
+          task:"cccc"        
+        },
+        
+      ]
+    }
+  },
+  methods:{
+    updateTitle(e){
+      this.title = e ;
+    },
+    done(index){
+      return this.list[index].done=true
+    },
+    unDone(index){
+      return this.list[index].done=false
+    },
+    addNewTask(){
+      this.list.unshift({
+        done:false,
+        task:this.newTask
+      }),
+      this.newTask=""
+    },
+    remove(index){
+      this.list.splice(index,1)
+     
+    }
+  }
+ 
 };
+
 </script>
+
+<style scoped>
+  #app{
+    margin:auto;
+  }
+  .done{
+    color:green
+  }
+  .unDone{
+    color:grey;
+    
+    border-width:10px;
+  }
+  h1{
+    background-color:black ;
+    color:white
+  }
+</style>
