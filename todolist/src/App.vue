@@ -9,6 +9,7 @@
           type="text"
           v-model="newTask"
           placeholder="blablabla"
+          @keyup.enter="addNewTask"
         />
         <button @click="addNewTask">ADD</button>
 
